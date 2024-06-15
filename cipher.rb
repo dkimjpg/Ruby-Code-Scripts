@@ -1,39 +1,25 @@
-def letter?(input)
+def letter?(input) #Checks if input is a letter
     input.match?(/[[:alpha:]]/)
 end
 
-def number?(input)
-    input.match?(/[[:digit:]]/)
-end
+WRAP_AROUND = 26   #Subtract by 26 since there are 26 letters in the alphabet
 
 def caesar_cipher(text, shift)
-    #select_ascii = text.split("").select {|char| letter?(char)}.join
-    #convert_ascii = select_ascii.chars.map {|char| char.ord}
-
-    #select_ascii = text.split("").select {|char| letter?(char)}.map {|char| char.ord}
-
     ascii_array = []
     convert_ascii = text.split("").each do |char|
         if letter?(char)
-            char = char.ord + 5
-            if char > 90 && char < 97
-                char = char - 26
+            char = char.ord + shift     #.ord converts to ascii int
+            if char > 90 && char < 97   #Checks if char needs to wrap back from Z to A (uppercase)
+                char = char - WRAP_AROUND
             end
-            if char > 122
-                char = char - 26
+            if char > 122               #Checks if char needs to wrap back from z to a (lowercase)
+                char = char - WRAP_AROUND
             end
         end
-        ascii_array.push(char.chr)
+        ascii_array.push(char.chr)      #.chr converts to alphabet string
     end
     final = ascii_array.join
 
-    #final = convert_ascii.map {|char| char.chr}.map
-
-    #puts ascii
-    #shift_ascii = convert_ascii.map {|char| char + 5}
-    #puts shift_ascii
-    #final = shift_ascii.map {|char| char.chr}.join
-    #puts
     return final
 end
 
